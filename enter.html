@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+      <script src="http://d3js.org/d3.v2.js"></script>
+    </head>
+    <body>
+      <div id="chart" width="100%" height="100%">
+      </div>
+      <script>
+        var vis = d3.select("#chart").append("svg")
+          .attr("width", 960)
+          .attr("height", 960)
+          .attr("class", "bubble");
+
+        var node = vis.selectAll("g.node")
+          .data([1,2,3,4,5,6, 7])
+          .enter().append("g")
+            .attr('class', 'node')
+            .attr('transform', function(d, i) {
+              return 'translate('+ (20 + d + i * 16 * Math.LN10) +', '+ (20 + d * i * 16) +')';
+            });
+
+        node.append("title")
+          .text(function(d) { return d; });
+
+        node.append("circle")
+          .attr("r", function(d) { return 10 + d * d; })
+          .attr("fill", "gray")
+
+        node.append("text")
+          .attr("text-anchor", "middle")
+          .attr("dy", ".3em")
+          .text(function(d) { return d; });
+      </script>
+    </body>
+</html>
