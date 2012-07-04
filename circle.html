@@ -4,36 +4,34 @@
       <script src="http://d3js.org/d3.v2.js"></script>
     </head>
     <body>
-      <svg width="100%" height="100%">
-        <g transform="translate(180,45)">
-          <circle class="little" r="12"></circle>
-        </g>
-        <g transform="translate(60,90)">
-          <circle class="little" r="12"></circle>
-        </g>
-        <g transform="translate(300,135)">
-          <circle class="little" r="12"></circle>
-        </g>
-      </svg>
+      <div id="chart" width="100%" height="100%">
+      </div>
       <script>
-        var circle = d3.selectAll("circle");
-        circle.style("fill", "gray");
-        circle.data([32, 57, 112, 293]);
-        circle.attr("cx", function(d) {
-          return d;
-        });
-        circle.attr("r", function(d) {
-          return Math.sqrt(d);
-        });
-        console.log(circle);
+        var circle = d3.select('#chart').append("svg")
+          .attr('width', '100%')
+          .attr('height', '100%')
+          .attr('class', 'bubble')
+          .selectAll('g.node')
+            .data([32, 57, 112, 293])
+            .enter().append("g")
+              .attr('class', 'node')
+              .attr('transform', function(d, i) {
+                return 'translate('+ d +', '+ d +')';
+              });
+        
+        circle.append("title")
+          .text(function(d) { return d; });
 
-        // three circles are in the html, but 4 data points given.  create the remaining circles
-        var enter = circle.enter().append("circle");
-        enter.attr("cy", 90);
-        enter.attr("cx", 160);
-        enter.attr("r", function(d) {
-          return Math.sqrt(d);
-        });
+        circle.append("circle")
+          .style("fill", "gray")
+          .attr("r", function(d) {
+            return Math.sqrt(d);
+          });
+
+        circle.append("text")
+          .attr("text-anchor", "middle")
+          .attr("dy", ".3em")
+          .text(function(d) { return d; });
       </script>
     </body>
 </html>
